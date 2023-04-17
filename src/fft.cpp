@@ -15,6 +15,10 @@ complex<double> get_reversed_omega(int n);
 
 vector<complex<double>> fft(vector<complex<double>> arr, bool reverse=false)
 {
+    if (arr.size() == 0)
+    {
+        return vector<complex<double>>();
+    }
     int n = decompose(arr.size());
     int N = 1 << n;
     arr.resize(N, (complex<double>)(0.0, 0.0));
@@ -96,6 +100,10 @@ vector<complex<double>> fft_convolution(vector<complex<double>> left_arr, vector
 {
     int len_l = left_arr.size();
     int len_r = right_arr.size();
+    if (len_l == 0 || len_r == 0)
+    {
+        return vector<complex<double>>();
+    }
     int size = (2 << decompose(len_l > len_r? len_l: len_r));
     left_arr.resize(size, 0);
     right_arr.resize(size, 0);

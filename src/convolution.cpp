@@ -12,6 +12,10 @@ vector<complex<double>> convolution(vector<complex<double>> left_arr, vector<com
 {
     int len_l = left_arr.size();
     int len_r = right_arr.size();
+    if (len_l == 0 || len_r == 0)
+    {
+        return vector<complex<double>>();
+    }
     int size = len_l + len_r - 1;
     vector<complex<double>> result (size, 0.0);
     for(int i = 0; i < size; i++)
