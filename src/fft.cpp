@@ -91,3 +91,26 @@ complex<double> get_reversed_omega(int n)
     double arg = 2 * M_PI / (1 << n);
     return complex<double>(cos(arg), sin(arg));
 }
+
+vector<complex<double>> fft_convolution(vector<complex<double>> left_arr, vector<complex<double>> right_arr)
+{
+    int len_l = left_arr.size();
+    int len_r = right_arr.size();
+    int size = (2 << decompose(len_l > len_r? len_l: len_r));
+    left_arr.resize(size, 0);
+    right_arr.resize(size, 0);
+
+    left_arr = fft(left_arr);
+    right_arr = fft(right_arr);
+
+    double sqrtSize = sqrt(size);
+
+    for(int i = 0; i < size; i++)
+    {
+        left_arr[i] = left_arr[i] * right_arr[i] * sqrtSize;
+    }
+
+    left_arr = fft(left_arr, true);
+    left_arr.resize(len_l + len_r - 1);
+    return left_arr;
+}
