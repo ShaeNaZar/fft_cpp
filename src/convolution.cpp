@@ -20,7 +20,7 @@ vector<complex<double>> convolution(vector<complex<double>> left_arr, vector<com
     vector<complex<double>> result (size, 0.0);
     for(int i = 0; i < size; i++)
     {
-        for(int j = MAX(0, i - len_r); j <= MIN(i, len_l); j++)
+        for(int j = MAX(0, i - len_r + 1); j < MIN(i + 1, len_l); j++)
         {
             result[i] += left_arr[j] * right_arr[i - j];
         }

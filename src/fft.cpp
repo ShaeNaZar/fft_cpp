@@ -13,6 +13,46 @@ int inversion(int base, int ind);
 complex<double> get_omega(int n);
 complex<double> get_reversed_omega(int n);
 
+vector<complex<double>> dft(vector<complex<double>> arr, bool reverse=false)
+{
+    if (arr.size() == 0)
+    {
+        return vector<complex<double>>();
+    }
+    int n = decompose(arr.size());
+    int N = 1 << n;
+    double Nsqrt = sqrt(N);
+    complex<double> omega;
+
+    arr.resize(N, 0.0);
+    if (reverse){
+        omega = get_reversed_omega(n);
+    }
+    else{
+        omega = get_omega(n);
+    }
+
+    vector<complex<double>> result(N, 0.0);
+
+    complex<double> current_omega = 1.0 / omega;
+
+    for(int i = 0; i < N; i++)
+    {
+        current_omega *= omega;
+        complex<double> coef = 1.0 / current_omega;
+
+        for(int j = 0; j < N; j++)
+        {
+            coef *= current_omega;
+            result[i] += coef * arr[j];
+        }
+        result[i] /= Nsqrt;
+    }
+
+    return result;
+}
+
+
 vector<complex<double>> fft(vector<complex<double>> arr, bool reverse=false)
 {
     if (arr.size() == 0)
